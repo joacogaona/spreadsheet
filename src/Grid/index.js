@@ -2,7 +2,10 @@ import Row from "./Row";
 import Cell from "./Cell";
 import { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS } from "../constants";
 import { intToChar } from "../utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const cellsContentLocal = JSON.parse(localStorage.getItem("cellsContent"));
+const cellsErrorsLocal = JSON.parse(localStorage.getItem("cellsErrors"));
 
 function GridHeaderRow() {
   return (
@@ -18,12 +21,17 @@ function GridHeaderRow() {
 }
 function GridBody() {
   const [cellSelected, setCellSelected] = useState([]);
-  const [cellsContent, setCellsContent] = useState({});
-  const [cellsErrors, setCellsErrors] = useState({});
+  const [cellsContent, setCellsContent] = useState(cellsContentLocal);
+  const [cellsErrors, setCellsErrors] = useState(cellsErrorsLocal);
 
   function handleSelect(e) {
     setCellSelected(e.target.name);
   }
+  useEffect(() => {
+    localStorage.setItem("cellsContent", JSON.stringify(cellsContent));
+    localStorage.setItem("cellsErrors", JSON.stringify(cellsErrors));
+  }, [cellsContent, cellsErrors]);
+
   return (
     <tbody>
       {Array.from({ length: NUMBER_OF_ROWS }, (_, index) => {
