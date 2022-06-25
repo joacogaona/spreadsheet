@@ -4,8 +4,9 @@ import { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS } from "../constants";
 import { intToChar } from "../utils";
 import { useState, useEffect } from "react";
 
-const cellsContentLocal = JSON.parse(localStorage.getItem("cellsContent"));
-const cellsErrorsLocal = JSON.parse(localStorage.getItem("cellsErrors"));
+const cellsContentLocal =
+  JSON.parse(localStorage.getItem("cellsContent")) ?? {};
+const cellsErrorsLocal = JSON.parse(localStorage.getItem("cellsErrors")) ?? {};
 
 function GridHeaderRow() {
   return (

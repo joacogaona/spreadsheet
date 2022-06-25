@@ -17,10 +17,7 @@ function normStringAndRefCells({ cellsContent, cellId }) {
         detectCellRef.push(chain);
         detectCellRef.push(contentWithoutEqual[i]);
         chain = "";
-      } else if (
-        contentWithoutEqual.indexOf(contentWithoutEqual[i]) ==
-        contentWithoutEqual.length - 1
-      ) {
+      } else if (i === contentWithoutEqual.length - 1) {
         chain = `${chain}${contentWithoutEqual[i]}`;
         detectCellRef.push(chain);
       } else {
