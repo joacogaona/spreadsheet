@@ -19,6 +19,7 @@ function GridHeaderRow() {
 function GridBody() {
   const [cellSelected, setCellSelected] = useState([]);
   const [cellsContent, setCellsContent] = useState({});
+  const [cellsErrors, setCellsErrors] = useState({});
 
   function handleSelect(e) {
     setCellSelected(e.target.name);
@@ -41,6 +42,8 @@ function GridBody() {
                   cellSelected={cellSelected}
                   cellsContent={cellsContent}
                   setCellsContent={setCellsContent}
+                  setCellsErrors={setCellsErrors}
+                  cellsErrors={cellsErrors}
                 />
               );
             })}

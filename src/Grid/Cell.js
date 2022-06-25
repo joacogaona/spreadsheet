@@ -6,6 +6,8 @@ function Cell({
   cellSelected,
   setCellsContent,
   cellsContent,
+  setCellsErrors,
+  cellsErrors,
 }) {
   const isSelected = cellSelected === cellId;
 
@@ -18,13 +20,25 @@ function Cell({
   }
 
   function handleBlur() {
-    if (cellsContent[cellId]?.[0] === "=") {
-      console.log(normStringAndRefCells({ cellsContent, cellId }), "AKAAAA");
-      setCellsContent((prevState) => {
+    try {
+      if (cellsContent[cellId]?.[0] === "=") {
+        const stringToEval = normStringAndRefCells({ cellsContent, cellId });
+        const result = eval(stringToEval);
+        setCellsContent((prevState) => {
+          const newState = { ...prevState };
+          newState[cellId] = result;
+          return newState;
+        });
+      }
+      setCellsErrors((prevState) => {
         const newState = { ...prevState };
-        newState[cellId] = eval(
-          normStringAndRefCells({ cellsContent, cellId })
-        );
+        newState[cellId] = false;
+        return newState;
+      });
+    } catch (error) {
+      setCellsErrors((prevState) => {
+        const newState = { ...prevState };
+        newState[cellId] = true;
         return newState;
       });
     }
@@ -36,7 +50,10 @@ function Cell({
       onClick={(e) => handleSelect(e)}
     >
       <input
-        className={`h-full  ${isSelected ? "bg-orange-100" : ""}  `}
+        className={`h-full  ${
+          isSelected ? "bg-sky-100" : cellsErrors[cellId] ? "bg-red-200" : ""
+        }  `}
+        required
         type="text"
         name={cellId}
         value={cellsContent[cellId] ?? ""}
