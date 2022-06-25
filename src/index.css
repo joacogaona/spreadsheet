@@ -3,3 +3,6 @@
 @tailwind utilities;
 
 
+.min-w-28 {
+  min-width: 7rem;
+}
