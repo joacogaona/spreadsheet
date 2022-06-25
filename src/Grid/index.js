@@ -17,11 +17,12 @@ function GridHeaderRow() {
   );
 }
 function GridBody() {
-  const [cellSelected, setCellSelected] = useState(null);
+  const [cellSelected, setCellSelected] = useState([]);
+  const [cellsContent, setCellsContent] = useState({});
 
-  const onSelect = (e) => {
+  function handleSelect(e) {
     setCellSelected(e.target.name);
-  };
+  }
   return (
     <tbody>
       {Array.from({ length: NUMBER_OF_ROWS }, (_, index) => {
@@ -36,10 +37,10 @@ function GridBody() {
                 <Cell
                   key={`${intToChar(columnIndex)}${rowIndex}`}
                   cellId={`${intToChar(columnIndex)}${rowIndex}`}
-                  onSelect={onSelect}
-                  isSelected={
-                    cellSelected === `${intToChar(columnIndex)}${rowIndex}`
-                  }
+                  handleSelect={handleSelect}
+                  cellSelected={cellSelected}
+                  cellsContent={cellsContent}
+                  setCellsContent={setCellsContent}
                 />
               );
             })}

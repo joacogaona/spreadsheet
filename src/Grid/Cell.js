@@ -1,37 +1,47 @@
-import { useState } from "react";
+import { normStringAndRefCells } from "../utils";
 
-function Cell({ onSelect, cellId, isSelected }) {
-  const [content, setContent] = useState("");
+function Cell({
+  handleSelect,
+  cellId,
+  cellSelected,
+  setCellsContent,
+  cellsContent,
+}) {
+  const isSelected = cellSelected === cellId;
+
   function handleContent(e) {
-    setContent(e.target.value);
+    setCellsContent((prevState) => {
+      const newState = { ...prevState };
+      newState[cellId] = e.target.value;
+      return newState;
+    });
   }
 
   function handleBlur() {
-    if (content[0] == "=") {
-      const trimmedContent = content.replace(/\s+/g, "");
-      const contentWithoutEqual = trimmedContent.substring(
-        1,
-        trimmedContent.length
-      );
-
-      setContent(eval(contentWithoutEqual));
+    if (cellsContent[cellId]?.[0] === "=") {
+      console.log(normStringAndRefCells({ cellsContent, cellId }), "AKAAAA");
+      setCellsContent((prevState) => {
+        const newState = { ...prevState };
+        newState[cellId] = eval(
+          normStringAndRefCells({ cellsContent, cellId })
+        );
+        return newState;
+      });
     }
   }
 
   return (
     <td
-      className={`border-2  h-10 m-0 p-0 min-w-28${
-        isSelected ? "border-teal-500" : ""
-      }  `}
-      onClick={onSelect}
+      className={`border-2  h-10 m-0 p-0 min-w-28 `}
+      onClick={(e) => handleSelect(e)}
     >
       <input
-        className="h-full"
+        className={`h-full  ${isSelected ? "bg-orange-100" : ""}  `}
         type="text"
         name={cellId}
-        value={content}
+        value={cellsContent[cellId] ?? ""}
         onChange={(e) => handleContent(e)}
-        onBlur={handleBlur}
+        onBlur={(e) => handleBlur(e)}
       />
     </td>
   );
