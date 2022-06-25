@@ -1,8 +1,8 @@
-import Cell from "./Cell";
 import Row from "./Row";
-import Column from "./Column";
+import Cell from "./Cell";
 import { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS } from "../constants";
 import { intToChar } from "../utils";
+import { useState } from "react";
 
 function GridHeaderRow() {
   return (
@@ -17,6 +17,11 @@ function GridHeaderRow() {
   );
 }
 function GridBody() {
+  const [cellSelected, setCellSelected] = useState(null);
+
+  const onSelect = (e) => {
+    setCellSelected(e.target.name);
+  };
   return (
     <tbody>
       {Array.from({ length: NUMBER_OF_ROWS }, (_, index) => {
@@ -26,10 +31,16 @@ function GridBody() {
             <td>{rowIndex}</td>
             {Array.from({ length: NUMBER_OF_COLUMNS }, (_, index) => {
               const columnIndex = index + 1;
+
               return (
-                <Column key={`${rowIndex}-${columnIndex}`}>
-                  <Cell key={`${rowIndex}-${columnIndex}`} />
-                </Column>
+                <Cell
+                  key={`${intToChar(columnIndex)}${rowIndex}`}
+                  cellId={`${intToChar(columnIndex)}${rowIndex}`}
+                  onSelect={onSelect}
+                  isSelected={
+                    cellSelected === `${intToChar(columnIndex)}${rowIndex}`
+                  }
+                />
               );
             })}
           </Row>
@@ -42,7 +53,7 @@ function GridBody() {
 function Grid() {
   return (
     <table>
-      <thead className="">
+      <thead>
         <GridHeaderRow />
       </thead>
       <GridBody />
