@@ -43,7 +43,12 @@ function Cell({
       });
     }
   }
-
+  function handleEnter(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      e.target.blur();
+    }
+  }
   return (
     <td
       className={`border-2  h-10 m-0 p-0 min-w-28 `}
@@ -59,6 +64,7 @@ function Cell({
         value={cellsContent[cellId] ?? ""}
         onChange={(e) => handleContent(e)}
         onBlur={(e) => handleBlur(e)}
+        onKeyDown={handleEnter}
       />
     </td>
   );

@@ -5,15 +5,14 @@ function intToChar(int) {
 function normStringAndRefCells({ cellsContent, cellId }) {
   try {
     const trimmedContent = cellsContent[cellId].replace(/\s+/g, "");
-    const contentWithoutEqual = trimmedContent.substring(
-      1,
-      trimmedContent.length
-    );
+    const contentWithoutEqual = trimmedContent
+      .substring(1, trimmedContent.length)
+      .toUpperCase();
 
     let detectCellRef = [];
     let chain = "";
     for (let i = 0; i < contentWithoutEqual.length; i++) {
-      if (contentWithoutEqual[i] == "+" || contentWithoutEqual[i] == "-") {
+      if (contentWithoutEqual[i] === "+" || contentWithoutEqual[i] === "-") {
         detectCellRef.push(chain);
         detectCellRef.push(contentWithoutEqual[i]);
         chain = "";
