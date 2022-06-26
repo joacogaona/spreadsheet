@@ -14,7 +14,12 @@ function GridHeaderRow() {
       <th />
       {Array.from({ length: NUMBER_OF_COLUMNS }, (_, index) => {
         return (
-          <th key={index + 1}>{index + 1 > 0 ? intToChar(index + 1) : ""}</th>
+          <th
+            className="bg-stone-200 border-gray-300 border-2 font-light text-sm"
+            key={index + 1}
+          >
+            {index + 1 > 0 ? intToChar(index + 1) : ""}
+          </th>
         );
       })}
     </tr>
@@ -38,8 +43,10 @@ function GridBody() {
       {Array.from({ length: NUMBER_OF_ROWS }, (_, index) => {
         const rowIndex = index + 1;
         return (
-          <Row key={rowIndex}>
-            <td>{rowIndex}</td>
+          <Row key={rowIndex} className="flex">
+            <td className="bg-stone-200 border-gray-300 border-2 text-center min-w-20 font-extralight text-sm ">
+              {rowIndex}
+            </td>
             {Array.from({ length: NUMBER_OF_COLUMNS }, (_, index) => {
               const columnIndex = index + 1;
 
