@@ -1,11 +1,7 @@
-import Grid from "./Grid";
+import Spreadsheet from "./Spreadsheet";
 
 function App() {
-  return (
-    <div>
-      <Grid />
-    </div>
-  );
+  return <Spreadsheet />;
 }
 
 export default App;

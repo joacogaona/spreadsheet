@@ -8,6 +8,7 @@ function Cell({
   cellsContent,
   setCellsErrors,
   cellsErrors,
+  handleEnter,
 }) {
   const isSelected = cellSelected === cellId;
 
@@ -43,17 +44,9 @@ function Cell({
       });
     }
   }
-  function handleEnter(e) {
-    if (e.keyCode === 13) {
-      e.preventDefault();
-      e.target.blur();
-    }
-  }
+
   return (
-    <td
-      className={`border-2  h-10 m-0 p-0 min-w-28 `}
-      onClick={(e) => handleSelect(e)}
-    >
+    <td className={`border-2  h-10 m-0 p-0 min-w-28 `} onClick={handleSelect}>
       <input
         className={`h-full  ${
           isSelected ? "bg-sky-100" : cellsErrors[cellId] ? "bg-red-200" : ""
@@ -62,8 +55,8 @@ function Cell({
         type="text"
         name={cellId}
         value={cellsContent[cellId] ?? ""}
-        onChange={(e) => handleContent(e)}
-        onBlur={(e) => handleBlur(e)}
+        onChange={handleContent}
+        onBlur={handleBlur}
         onKeyDown={handleEnter}
       />
     </td>
