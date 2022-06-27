@@ -1,7 +1,10 @@
-import Row from "./Row";
 import Cell from "./Cell";
 import { NUMBER_OF_COLUMNS, NUMBER_OF_ROWS } from "../constants";
 import { intToChar } from "../utils";
+
+function Row({ children }) {
+  return <tr>{children}</tr>;
+}
 
 function RowIndexCell({ rowIndex }) {
   return (
@@ -17,7 +20,7 @@ function GridBody() {
       {Array.from({ length: NUMBER_OF_ROWS }, (_, xIndex) => {
         const rowIndex = xIndex + 1;
         return (
-          <Row key={rowIndex} className="flex">
+          <Row key={rowIndex}>
             <RowIndexCell rowIndex={rowIndex} />
             {Array.from({ length: NUMBER_OF_COLUMNS }, (_, yIndex) => {
               const columnIndex = yIndex + 1;
