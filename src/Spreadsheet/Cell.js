@@ -1,62 +1,75 @@
 import { normStringAndRefCells } from "../utils";
 import { evaluate } from "mathjs";
+import { useCellsData } from "../context/CellsDataContext";
+import { useStateWithMerge } from "../hooks/useStateWithMerge";
+function initialState() {
+  return {
+    content: "",
+    setIsSelected: false,
+    hasError: false,
+  };
+}
 
-function Cell({
-  handleSelect,
-  cellId,
-  cellSelected,
-  setCellsContent,
-  cellsContent,
-  setCellsErrors,
-  cellsErrors,
-  handleEnter,
-}) {
-  const isSelected = cellSelected === cellId;
+function Cell({ cellId }) {
+  const [cellsData, setCellsData] = useCellsData();
+  const [state, setState] = useStateWithMerge(initialState);
+  const { content, isSelected, hasError } = state;
 
-  function handleContent(e) {
-    setCellsContent((prevState) => {
-      const newState = { ...prevState };
-      newState[cellId] = e.target.value;
-      return newState;
-    });
+  function handleChange(e) {
+    setState({ content: e.target.value });
   }
-
+  function handleSelect(e) {
+    setState({ isSelected: true });
+  }
+  function handleEnter(e) {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      e.target.blur();
+    }
+    setState({ isSelected: false });
+  }
   function handleBlur() {
     try {
-      if (cellsContent[cellId]?.[0] === "=") {
-        const stringToEval = normStringAndRefCells({ cellsContent, cellId });
+      if (content[0] === "=") {
+        const stringToEval = normStringAndRefCells({ cellsData, content });
         const result = evaluate(stringToEval);
-        setCellsContent((prevState) => {
+        setCellsData((prevState) => {
           const newState = { ...prevState };
           newState[cellId] = result;
           return newState;
         });
+        setState({ content: result });
+      } else {
+        setCellsData((prevState) => {
+          const newState = { ...prevState };
+          newState[cellId] = content;
+          return newState;
+        });
       }
-      setCellsErrors((prevState) => {
-        const newState = { ...prevState };
-        newState[cellId] = false;
-        return newState;
-      });
+      setState({ hasError: false, isSelected: false });
     } catch (error) {
-      setCellsErrors((prevState) => {
-        const newState = { ...prevState };
-        newState[cellId] = true;
-        return newState;
-      });
+      console.log({ error });
+      setState({ hasError: true });
     }
+  }
+  function getClassName({ isSelected, hasError }) {
+    let className = "h-full";
+    if (isSelected) {
+      className = `${className} bg-sky-100`;
+    } else if (hasError) {
+      className = `${className} bg-red-200`;
+    }
+    return className;
   }
 
   return (
     <td className={`border-2  h-10 m-0 p-0 min-w-28 `}>
       <input
-        className={`h-full  ${
-          isSelected ? "bg-sky-100" : cellsErrors[cellId] ? "bg-red-200" : ""
-        }  `}
-        required
+        className={getClassName({ isSelected, hasError })}
         type="text"
         name={cellId}
-        value={cellsContent[cellId] ?? ""}
-        onChange={handleContent}
+        value={content}
+        onChange={handleChange}
         onBlur={handleBlur}
         onKeyDown={handleEnter}
         onClick={handleSelect}

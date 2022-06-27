@@ -2,9 +2,9 @@ function intToChar(int) {
   return String.fromCharCode(64 + int);
 }
 
-function normStringAndRefCells({ cellsContent, cellId }) {
+function normStringAndRefCells({ cellsData, content }) {
   try {
-    const trimmedContent = cellsContent[cellId].replace(/\s+/g, "");
+    const trimmedContent = content.replace(/\s+/g, "");
     const contentWithoutEqual = trimmedContent
       .substring(1, trimmedContent.length)
       .toUpperCase();
@@ -25,7 +25,7 @@ function normStringAndRefCells({ cellsContent, cellId }) {
     }
     let normalizedString = "";
     detectCellRef.forEach((item) => {
-      let storedValue = cellsContent[item];
+      let storedValue = cellsData[item];
       if (!isNaN(item) || item === "+" || item === "-") {
         normalizedString = `${normalizedString}${item}`;
       } else if (storedValue) {
