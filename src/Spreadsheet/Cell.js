@@ -23,7 +23,6 @@ function Cell({ cellId }) {
   }
   function handleEnter(e) {
     if (e.keyCode === 13) {
-      e.preventDefault();
       e.target.blur();
     }
     setState({ isSelected: false });
