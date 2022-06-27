@@ -1,6 +1,6 @@
 import GridHeader from "./GridHeader";
 import GridBody from "./GridBody";
-import { CellsDataProvider } from "../CellsDataContext";
+import { CellsDataProvider } from "../context/CellsDataContext";
 
 function Grid() {
   return (

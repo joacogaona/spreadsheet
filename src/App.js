@@ -1,4 +1,4 @@
-import Spreadsheet from "./Spreadsheet";
+import Spreadsheet from "./spreadsheet";
 
 function App() {
   return <Spreadsheet />;

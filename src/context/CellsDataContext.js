@@ -8,20 +8,9 @@ export function useCellsData() {
 
 export function CellsDataProvider({ children }) {
   const [cellsData, setCellsData] = useState([]);
-  const [cellSelected, setCellSelected] = useState("");
-  const [cellsErrors, setCellsErrors] = useState([]);
 
   return (
-    <CellsData.Provider
-      value={[
-        cellsData,
-        setCellsData,
-        cellSelected,
-        setCellSelected,
-        cellsErrors,
-        setCellsErrors,
-      ]}
-    >
+    <CellsData.Provider value={[cellsData, setCellsData]}>
       {children}
     </CellsData.Provider>
   );
