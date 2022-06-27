@@ -14,13 +14,13 @@ function RowIndexCell({ rowIndex }) {
 function GridBody() {
   return (
     <tbody>
-      {Array.from({ length: NUMBER_OF_ROWS }, (_, index) => {
-        const rowIndex = index + 1;
+      {Array.from({ length: NUMBER_OF_ROWS }, (_, xIndex) => {
+        const rowIndex = xIndex + 1;
         return (
           <Row key={rowIndex} className="flex">
             <RowIndexCell rowIndex={rowIndex} />
-            {Array.from({ length: NUMBER_OF_COLUMNS }, (_, index) => {
-              const columnIndex = index + 1;
+            {Array.from({ length: NUMBER_OF_COLUMNS }, (_, yIndex) => {
+              const columnIndex = yIndex + 1;
               return (
                 <Cell
                   key={`${intToChar(columnIndex)}${rowIndex}`}
